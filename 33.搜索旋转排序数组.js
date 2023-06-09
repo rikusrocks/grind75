@@ -18,14 +18,21 @@ var search = function(nums, target) {
         let mid = Math.floor((start + end) * 0.5)
         if(nums[mid] === target) {
             return mid
-        } 
+        }
+        // start to mid is increasing and only increasing
         if(nums[start] <= nums[mid]) {
-            if(target < nums[start] || target > nums[mid]) {
+            //target at right side of mid, 
+            //because left side is confirmed to be increasing
+            if(target > nums[mid] || target < nums[start]) {
                 start = mid + 1
             } else {
                 end = mid - 1
             }
-        } else {
+        } else
+        // mid to end is increasing and only increasing 
+        {
+            //target at left side of mid, 
+            //because right side is confirmed to be increasing
             if(target < nums[mid] || target > nums[end]) {
                 end = mid - 1
             } else {
