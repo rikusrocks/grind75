@@ -34,7 +34,7 @@ var rankTeams = function (votes) {
       }
     }
     return a.localeCompare(b);
-  });
+  }); 
   return ans.join("");
 };
 // @lc code=end
