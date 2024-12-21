@@ -17,7 +17,6 @@
 var maxProfit = function(prices) {
     let result = 0
     let min = Number.POSITIVE_INFINITY
-    let max = -1
     prices.forEach(p => {
         if(p < min) {
             min = p
