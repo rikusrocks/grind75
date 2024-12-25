@@ -23,6 +23,8 @@
  * @return {boolean}
  */
 var isBalanced = function(root) {
+    // dive straight to the bottom nodes, and traverse back to the parent node,
+    // the parent node depth is the max depth between right and left node depth
     let result = true
     if(!root) return true
     const countDepth = (root) => {
