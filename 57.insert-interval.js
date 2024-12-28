@@ -20,6 +20,10 @@ var insert = function (intervals, newInterval) {
   let tempArr = [newInterval[0], newInterval[1]];
   let i = 0
   let length = intervals.length
+  // when to start?
+  // if the new interval is inside the current arr
+  // means that, if the low value of the interval is not higher than the high value of the arr
+  // and the high value of the interval is not lower than the low value of the arr
   while(i < length && tempArr[0] > intervals[i][1]) {
     arr.push(intervals[i])
     i++

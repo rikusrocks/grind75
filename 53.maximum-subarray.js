@@ -20,15 +20,11 @@ var maxSubArray = function(nums) {
     let curCount = nums[0]
     for (let index = 1; index < nums.length; index++) {
         const element = nums[index];
-        // if(element >= 0 && curCount > 0) {
-        //     curCount += element
-        // } else if(element >= 0 && curCount <= 0) {
-        //     curCount = element
-        // } else if(element < 0 && curCount > 0) {
-        //     curCount += element
-        // } else {
-        //     curCount = element
-        // }
+        // curCount + element = all previous added result without change the first start number
+        // if the number is larger than previous added result, change the first start number
+        // this means the count for this certain array of number is done, jump to the next 
+        // counting of array of number
+
         curCount = Math.max(element, curCount + element)
         result = Math.max(result, curCount)
     }
