@@ -16,25 +16,21 @@
  */
 var maxSubArray = function(nums) {
     if(nums.length === 0) return nums[0]
-    let arr = []
     let result = nums[0]
     let curCount = nums[0]
     for (let index = 1; index < nums.length; index++) {
         const element = nums[index];
-        if(element >= 0 && curCount > 0) {
-            arr.push(element)
-            curCount += element
-        } else if(element >= 0 && curCount <= 0) {
-            arr = [element]
-            curCount = element
-        } else if(element < 0 && curCount > 0) {
-            arr.push(element)
-            curCount += element
-        } else {
-            curCount = element
-            arr = [element]
-        }
-        result = result > curCount ? result : curCount
+        // if(element >= 0 && curCount > 0) {
+        //     curCount += element
+        // } else if(element >= 0 && curCount <= 0) {
+        //     curCount = element
+        // } else if(element < 0 && curCount > 0) {
+        //     curCount += element
+        // } else {
+        //     curCount = element
+        // }
+        curCount = Math.max(element, curCount + element)
+        result = Math.max(result, curCount)
     }
     return result
 };
