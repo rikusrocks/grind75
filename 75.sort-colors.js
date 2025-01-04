@@ -15,16 +15,27 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var sortColors = function(nums) {
-    let red = 0
-    let white = 0
-    let blue = 0
-    for (let i = 0; i < nums.length; i++) {
-        const element = nums[i];
-        if(element === 0) red ++
-        if(element === 1) white ++
-        if(element === 2) blue ++
+    // let red = 0
+    // let white = 0
+    // let blue = 0
+    // for (let i = 0; i < nums.length; i++) {
+    //     const element = nums[i];
+    //     if(element === 0) red ++
+    //     if(element === 1) white ++
+    //     if(element === 2) blue ++
+    // }
+    // return nums.fill(0, 0, red).fill(1, red, red + white).fill(2, red + white) 
+    let n0 = 0, n1 = 0;
+    for(let i = 0; i < nums.length; i++){
+        let num = nums[i];
+        nums[i] = 2;
+        if(num < 2){
+            nums[n1++] = 1;
+        }
+        if(num < 1){
+            nums[n0++] = 0;
+        }
     }
-    return nums.fill(0, 0, red).fill(1, red, red + white).fill(2, red + white) 
 };
 // @lc code=end
 
