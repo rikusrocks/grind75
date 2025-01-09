@@ -45,63 +45,73 @@ LRUCache.prototype.put = function(key, value) {
 
 class Node {
     constructor(key = 0, val = 0) {
-        this.key = key
-        this.val = val
-        this.prev = null
-        this.next = null
+        this.key = key;
+        this.val = val;
+        this.prev = null;
+        this.next = null;
     }
 }
+
 class LRUCache {
     constructor(capacity) {
-        this.limit = capacity
-        this.cacheMap = new Map()
-        this.dummy = new Node()
-        this.dummy.prev = this.dummy
-        this.dummy.next = this.dummy
-    }
-    moveToHead(node) {
-            node.prev = this.dummy
-            node.next = this.dummy.next
-            this.dummy.next = node
-            this.dummy.prev = node 
+        this.limit = capacity;
+        this.dummy = new Node(); // Sentinel node
+        this.dummy.prev = this.dummy;
+        this.dummy.next = this.dummy;
+        this.cacheMap = new Map();
     }
 
-    delete(node) {
-            node.prev.next = node.next
-            node.next.prev = node.prev
+    #moveToHead(node) {
+        node.prev = this.dummy;
+        node.next = this.dummy.next;
+        node.prev.next = node;
+        node.next.prev = node;
     }
 
-    getNode(key) {
-        if(!this.cacheMap.has(key)) {
-            return null
+    #delete(node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    #getNode(key) {
+        if (!this.cacheMap.has(key)) {
+            return null;
         }
-        let node = this.cacheMap.get(key)
-        this.delete(node)
-        this.moveToHead(node)
-        return node
+        let node = this.cacheMap.get(key);
+        this.#delete(node);
+        this.#moveToHead(node);
+        return node;
     }
 
     put(key, value) {
-        let node = this.cacheMap.get(key)
-        if(node) {
-            node.val = value
-            return
-        }
-        let nodeToAdd = new Node(key, value)
-        this.moveToHead(nodeToAdd)
-        this.cacheMap.set(key, nodeToAdd)
-        if(this.cacheMap.size > this.limit) {
-            let lastNode = this.dummy.prev
-            this.delete(lastNode)
-            this.cacheMap.delete(lastNode.key)
+        let node = this.cacheMap.get(key);
+        if (node) {
+            // If node exists, update its value and move it to the head
+            node.val = value;
+            this.#delete(node);
+            this.#moveToHead(node);
+        } else {
+            // If node does not exist, create a new node and add it to the head
+            let nodeToAdd = new Node(key, value);
+            this.cacheMap.set(key, nodeToAdd);
+            this.#moveToHead(nodeToAdd);
+
+            // If cache exceeds capacity, remove the least recently used node
+            if (this.cacheMap.size > this.limit) {
+                let lastNode = this.dummy.prev; // Least recently used
+                this.#delete(lastNode);
+                this.cacheMap.delete(lastNode.key);
+            }
         }
     }
 
     get(key) {
-        let node = this.getNode(key)
-        return node || -1
+        let node = this.#getNode(key);
+        return node ? node.val : -1; // Return value or -1 if key doesn't exist
     }
-};
+}
+
+
 
 // /** 
 //  * @param {number} key
