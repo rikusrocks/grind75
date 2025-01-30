@@ -20,20 +20,39 @@ var wordBreak = function(s, wordDict) {
     const wordSet = new Set(wordDict); // Use a Set for faster lookups
     const memo = new Map(); // Memoization to store results for substrings
 
-    const dfs = (start) => {
-        if(start === length) return true
-        if(memo.has(start)) return memo.get(start)
+    // const dfs = (start) => {
+    //     if(start === length) return true
+    //     if(memo.has(start)) return memo.get(start)
+    //     for(let i = start + 1; i <= length; i ++) {
+    //         const word = s.substring(start, i)
+    //         if(wordSet.has(word) && dfs(i)) {
+    //             memo.set(start, true)
+    //             return true
+    //         }
+    //     }
+    //     memo.set(start, false)
+    //     return false
+    // }
+    // return dfs(0)
+    const visited = new Set()
+    let queue = []
+    queue.push(0)
+    while(queue.length) {
+        const start = queue.shift()
+        if(visited.has(start)) continue
+        visited.add(start)
         for(let i = start + 1; i <= length; i ++) {
             const word = s.substring(start, i)
-            if(wordSet.has(word) && dfs(i)) {
-                memo.set(start, true)
-                return true
+            if(wordSet.has(word)) {
+                if(i < length) {
+                    queue.push(i)
+                } else {
+                    return true
+                }
             }
         }
-        memo.set(start, false)
-        return false
     }
-    return dfs(0)
+    return false
 };
 
 
