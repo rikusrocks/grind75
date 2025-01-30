@@ -34,25 +34,42 @@ var wordBreak = function(s, wordDict) {
     //     return false
     // }
     // return dfs(0)
-    const visited = new Set()
-    let queue = []
-    queue.push(0)
-    while(queue.length) {
-        const start = queue.shift()
-        if(visited.has(start)) continue
-        visited.add(start)
-        for(let i = start + 1; i <= length; i ++) {
-            const word = s.substring(start, i)
-            if(wordSet.has(word)) {
-                if(i < length) {
-                    queue.push(i)
-                } else {
-                    return true
-                }
+
+    // const visited = new Set()
+    // let queue = []
+    // queue.push(0)
+    // while(queue.length) {
+    //     const start = queue.shift()
+    //     if(visited.has(start)) continue
+    //     visited.add(start)
+    //     for(let i = start + 1; i <= length; i ++) {
+    //         const word = s.substring(start, i)
+    //         if(wordSet.has(word)) {
+    //             if(i < length) {
+    //                 queue.push(i)
+    //             } else {
+    //                 return true
+    //             }
+    //         }
+    //     }
+    // }
+    // return false
+
+    const dp = new Array(length + 1).fill(false)
+    dp[0] = true
+    for(let i = 1; i <= length; i ++) {
+        for(let j = i - 1; j >=0; j --) {
+            if (dp[i] == true) break;
+            if (dp[j] == false) continue;
+            const word = s.substring(j, i)
+            if(wordSet.has(word) && dp[j]) {
+                dp[i] = true
+                break
             }
         }
     }
-    return false
+
+    return dp[length]
 };
 
 
