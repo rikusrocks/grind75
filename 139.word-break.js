@@ -16,27 +16,24 @@
  * @return {boolean}
  */
 var wordBreak = function(s, wordDict) {
+    const length = s.length
     const wordSet = new Set(wordDict); // Use a Set for faster lookups
-    const memo = {}; // Memoization to store results for substrings
+    const memo = new Map(); // Memoization to store results for substrings
 
-    const backtrack = (str) => {
-        if (str in memo) return memo[str]; // Return memoized result
-        if (wordSet.has(str)) return (memo[str] = true); // If the whole string is a word
-
-        for (let i = 1; i <= str.length; i++) {
-            const prefix = str.substring(0, i);
-            if (wordSet.has(prefix)) { // Check if the prefix is a valid word
-                const suffix = str.substring(i);
-                if (backtrack(suffix)) {
-                    return (memo[str] = true); // If suffix is valid, the whole string is valid
-                }
+    const dfs = (start) => {
+        if(start === length) return true
+        if(memo.has(start)) return memo.get(start)
+        for(let i = start + 1; i <= length; i ++) {
+            const word = s.substring(start, i)
+            if(wordSet.has(word) && dfs(i)) {
+                memo.set(start, true)
+                return true
             }
         }
-
-        return (memo[str] = false); // Store the result in memo
-    };
-
-    return backtrack(s);
+        memo.set(start, false)
+        return false
+    }
+    return dfs(0)
 };
 
 
