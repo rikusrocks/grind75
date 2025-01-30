@@ -23,6 +23,12 @@ var wordBreak = function(s, wordDict) {
         if(memo.has(start)) return memo.get(start)
         if(start === length) return [[]]
         const res = []
+        // in this for loop, if the word is not in the dict, 
+        // it will proceed to the next char, and if i reach the limit, 
+        // it will jump out of the for loop, and return [] as res
+        // and if restResponse is [], it won't trigger the for of loop,
+        // means that, if the rest of the word cannot be covered by the dict words, 
+        // the word will not be pushed to the res
         for(let i = start + 1; i <= length; i ++) {
             const word = s.substring(start, i)
             if(wordSet.has(word)) {
