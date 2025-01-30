@@ -19,11 +19,12 @@ var wordBreak = function(s, wordDict) {
     const length = s.length
     const wordSet = new Set(wordDict); // Use a Set for faster lookups
     const memo = new Map(); // Memoization to store results for substrings
-
+    const maxLength = Math.max(...wordDict.map(word => word.length))
     // const dfs = (start) => {
     //     if(start === length) return true
     //     if(memo.has(start)) return memo.get(start)
-    //     for(let i = start + 1; i <= length; i ++) {
+    //     for(let i = start + 1; i <= length; i ++)
+    //     for(let i = start + 1; i < start + maxLength + 1; i ++) {
     //         const word = s.substring(start, i)
     //         if(wordSet.has(word) && dfs(i)) {
     //             memo.set(start, true)
